@@ -1,0 +1,5 @@
+package system.main.navigation;
+
+public class Node {
+
+}

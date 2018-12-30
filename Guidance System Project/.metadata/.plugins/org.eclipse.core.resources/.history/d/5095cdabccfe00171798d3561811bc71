@@ -1,0 +1,117 @@
+package system.main.navigation;
+
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+public class Schematic {
+
+	int width;
+	int height;
+	boolean collisionMap[][];
+	
+	Node nodeMap[][];
+	
+	int startX, startY;
+	int endX, endY;
+	
+	public Schematic(BufferedImage schem) {
+		startX = -1;
+		startY = -1;
+		endX = -1;
+		endY = -1;
+		loadMapFromImg(schem);
+	}
+	
+	private void loadMapFromImg(BufferedImage schem) {
+		width = schem.getWidth();
+		height = schem.getHeight();
+		collisionMap = new boolean[height][width];
+		
+		for(int y = 0; y < height; y++){
+			for(int x = 0; x < width; x++){
+				
+				String hexcode = Integer.toHexString(schem.getRGB(x,y));
+				
+				if(!hexcode.equals("ffffffff")) {
+					collisionMap[y][x] = true;
+					schem.setRGB(x, y, Color.black.getRGB());
+					System.out.print(1);
+				} else {
+					collisionMap[y][x] = false;
+					System.out.print(0);
+				}
+			}
+			System.out.print("\n");
+		}
+	}
+	
+	public void setStartPos(int sX, int sY) {
+		if(!collisionMap[sY][sX]) {
+			startX = sX;
+			startY = sY;
+		}
+	}
+	
+	public void setEndPos(int eX, int eY) {
+		if(!collisionMap[eY][eX]) {
+			endX = eX;
+			endY = eY;
+			search();
+		}
+	}
+	
+	public void search() {
+		
+		/*Node[] childNodes = new Node(startX, startY).getChildren(width, height);
+		for(int i = 0; i < childNodes.length; i++) {
+			if(childNodes[i] != null)
+			{
+				System.out.println(childNodes[i].x + ", " + childNodes[i].y + "\n");
+			}
+		}*/
+		
+		ArrayList<Node> openNodes = new ArrayList<Node>();
+		ArrayList<Node> closedNodes = new ArrayList<Node>();
+		
+		openNodes.add(new Node(startX, startY));
+		
+		searchloop:
+		while(true) {
+			Node[] childNodes = openNodes.get(0).getChildren(width, height);
+			for(int n = 0; n < 8; n++) {
+				if(childNodes[n] != null) {
+					if(collisionMap[childNodes[n].x][childNodes[n].y] == true) {
+						if(!closedNodes.contains(childNodes[n])) {
+							openNodes.add(childNodes[n]);
+							if(childNodes[n].x == endX && childNodes[n].y == endY) {
+								break searchloop;
+							}
+						}
+					}
+				}
+			}
+			closedNodes.add(openNodes.get(0));
+			openNodes.remove(0);
+		}
+		
+		System.out.println("test1");
+	}
+	
+	public boolean[][] getCollisionMap() {
+		return collisionMap;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public int getStartX() { return startX; }
+	public int getStartY() { return startY; }
+	public int getEndX() { return endX; }
+	public int getEndY() { return endY; }
+}

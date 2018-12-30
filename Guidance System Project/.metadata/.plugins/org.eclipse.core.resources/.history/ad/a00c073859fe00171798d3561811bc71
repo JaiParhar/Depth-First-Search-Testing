@@ -1,0 +1,26 @@
+package system.main.navigation;
+
+public class Node {
+	
+	boolean checked;
+	
+	Node parent;
+	
+	int x;
+	int y;
+	
+	public Node(int X, int Y) {
+		x = X;
+		y = Y;
+		
+		checked = false;
+	}
+	
+	public void setParent(Node p) {
+		parent = p;
+	}
+	
+	public Node[][] getChildrenPos() {
+		
+	}
+}

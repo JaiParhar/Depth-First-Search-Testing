@@ -1,0 +1,37 @@
+package system.main.navigation;
+
+import java.util.ArrayList;
+
+public class Node {
+	
+	boolean checked;
+	
+	Node parent;
+	
+	int x;
+	int y;
+	
+	public Node(int X, int Y) {
+		x = X;
+		y = Y;
+		
+		checked = false;
+	}
+	
+	public void setParent(Node p) {
+		parent = p;
+	}
+	
+	public int[][] getChildren(int mapWidth, int mapHeight) {
+		
+		ArrayList<int[]> children = new ArrayList<int[]>();
+		for(int why = -1; why <= 1; why++) {
+			for(int ecks = -1; ecks <= 1; ecks++) {
+				if((x + ecks) < 0 || (x + ecks) >= mapWidth || (y + why) < 0 || (y + why) >= mapHeight) {
+					
+				}
+			}
+		}
+		return null;
+	}
+}

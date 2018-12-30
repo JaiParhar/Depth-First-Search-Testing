@@ -1,0 +1,13 @@
+package system.main.navigation;
+
+public class Node {
+	
+	boolean checked;
+	
+	Node parent;
+	Node[] children;
+	
+	public Node(Node p) {
+		parent = p;
+	}
+}
